@@ -22,7 +22,7 @@ const Stories = ({ stories }: StoriesProps) => {
           >
             <div className="w-16 h-16 rounded-full ring-2 ring-pink-500 p-1">
               <Image
-                src={story.story_url}
+                src={story.story_url.trim()}
                 alt={story.user_name}
                 width={64}
                 height={64}
