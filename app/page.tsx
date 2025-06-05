@@ -7,7 +7,7 @@ export default function Home() {
   router.push("/signin")
   return (
     <>
-      
+    
     </>
   );
 }
