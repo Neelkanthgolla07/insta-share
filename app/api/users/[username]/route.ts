@@ -24,9 +24,9 @@ export async function GET(
 
     return NextResponse.json({
       name: user.name,
-      followers: 0,
-      following: 0,
-      posts: 0
+      followers: user.followers,
+      following: user.following,
+      
     })
 
   } catch (error) {

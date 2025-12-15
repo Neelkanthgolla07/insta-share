@@ -1,48 +1,44 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import Stories from '@/components/Stories'
 import Posts from '@/components/Posts'
-
-interface Story {
-  user_id: string
-  user_name: string
-  story_url: string
-}
+import mongoose from 'mongoose'
 
 interface Comment {
+  user_id: mongoose.Types.ObjectId
   user_name: string
-  user_id: string
   comment: string
+  created_at: string | Date
 }
 
 interface Post {
-  post_id: string
-  user_id: string
+  _id: string
+  user_id: mongoose.Types.ObjectId
   user_name: string
-  profile_pic: string
+  profile_pic?: string
   post_details: {
     image_url: string
-    caption: string
+    caption?: string
   }
-  likes_count: number
+  likes: string[]
   comments: Comment[]
-  created_at: string
+  created_at: string | Date
 }
 
 const Home = () => {
-  const [stories, setStories] = useState<Story[]>([])
+  // const [stories, setStories] = useState<Story[]>([])
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [storiesResponse, postsResponse] = await Promise.all([
-          axios.get('/api/stories'),
-          axios.get('/api/posts')
-        ])
-        setStories(storiesResponse.data)
+        // const [storiesResponse, postsResponse] = await Promise.all([
+        //   axios.get('/api/stories'),
+        //   axios.get('/api/posts')
+        // ])
+        const postsResponse = await axios.get('/api/posts')
+        // setStories(storiesResponse.data)
         setPosts(postsResponse.data)
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -60,15 +56,15 @@ const Home = () => {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      {/* Stories Section */}
+      {/* Stories Section
       <div className="mb-8">
         <Stories stories={stories} />
-      </div>
+      </div> */}``
 
       {/* Posts Section */}
       <div className="space-y-6">
-        {posts.map((post) => (
-          <Posts key={post.post_id} post={post} />
+        {posts.map((post: Post) => (
+          <Posts key={post._id} post={post} />
         ))}
       </div>
     </div>

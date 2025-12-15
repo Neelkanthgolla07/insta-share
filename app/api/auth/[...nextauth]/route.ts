@@ -4,6 +4,8 @@ import bcrypt from 'bcryptjs'
 import User from '@/models/User'
 import connectionDatabase from '@/lib/mongoose'
 
+
+
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
@@ -39,6 +41,22 @@ const handler = NextAuth({
       }
     })
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id
+        token.name = user.name
+      }
+      return token
+    },
+    async session({ session, token }) {
+      if (session?.user) {
+        session.user.id = token.id as string
+        session.user.name = token.name
+      }
+      return session
+    }
+  },
   pages: {
     signIn: '/signin',
   },
